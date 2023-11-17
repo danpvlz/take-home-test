@@ -1,19 +1,21 @@
 import Image from "next/image";
 import React from "react";
-import { fetchRepository } from "../lib/data";
+import { GitHubRepository } from "@backend/github-api/github-api.interfaces";
 
-export default async function RepositoryCard() {
-  const repository = await fetchRepository();
-
+export default async function RepositoryCard({
+  repository,
+}: {
+  repository: GitHubRepository;
+}) {
   return (
     <div className=" border-neutral-800 bg-zinc-800/40 rounded-xl border p-6 flex flex-col gap-3">
       <a
         className="font-bold text-2xl text-blue-500 hover:text-blue-300 transition-colors duration-150 flex items-center gap-2"
-        href={repository?.html_url}
+        href={repository.html_url}
         target="_blank"
         rel="noreferrer"
       >
-        {repository?.name}
+        {repository.name}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="18"
@@ -26,21 +28,18 @@ export default async function RepositoryCard() {
           />
         </svg>
       </a>
-      <p>{repository?.description}</p>
-
-      {repository ? (
-        <div className="flex  items-center gap-3 text-xs">
-          <p>by</p>{" "}
-          <Image
-            className="rounded-full"
-            src={repository?.owner.avatar_url}
-            width={20}
-            height={20}
-            alt={`${repository?.owner.login} avatar`}
-          />
-          <p>{repository?.owner.login}</p>
-        </div>
-      ) : null}
+      <p>{repository.description}</p>
+      <div className="flex  items-center gap-3 text-xs">
+        <p>by</p>{" "}
+        <Image
+          className="rounded-full"
+          src={repository?.owner.avatar_url}
+          width={20}
+          height={20}
+          alt={`${repository?.owner.login} avatar`}
+        />
+        <p>{repository?.owner.login}</p>
+      </div>
     </div>
   );
 }
