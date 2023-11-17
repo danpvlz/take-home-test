@@ -1,8 +1,9 @@
 import { INestApplication, Injectable } from '@nestjs/common';
-import { GitHubService } from '@backend/github-api/github-api.service';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { GitHubCommit, GitHubRepository } from './github-api.interfaces';
 import { GitHubReponseSchema, GitHubRepositorySchema } from './github-api.schema';
+import { GitHubService } from './github-api.service';
+import { GitHubApiError } from './github-api.errors';
 
 @Injectable()
 export class GitHubApiRouter {
@@ -14,57 +15,59 @@ export class GitHubApiRouter {
     this.repository = 'take-home-test'
   }
 
+  async fetchRepositoryInformation(): Promise<GitHubRepository> {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${this.owner}/${this.repository}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+        },
+      });
+
+      if (!response.ok) {
+        throw new GitHubApiError(`GitHub API error: ${response.status} - ${response.statusText}`, response.status);
+      }
+
+      const data: GitHubRepository = await response.json();
+      return GitHubRepositorySchema.parse(data);
+    } catch (error) {
+      if (error instanceof GitHubApiError) {
+        throw error;
+      } else {
+        throw new GitHubApiError('Internal Server Error', 500);
+      }
+    }
+  }
+
+  async fetchCommits(): Promise<GitHubCommit[]> {
+    try {
+      const response = await fetch(`https://api.github.com/repos/${this.owner}/${this.repository}/commits`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+        },
+      });
+
+      if (!response.ok) {
+        throw new GitHubApiError(`GitHub API error: ${response.status} - ${response.statusText}`, response.status);
+      }
+
+      const data: GitHubCommit[] = await response.json();
+      return GitHubReponseSchema.parse(data);
+    } catch (error) {
+      if (error instanceof GitHubApiError) {
+        throw error;
+      } else {
+        throw new GitHubApiError('Internal Server Error', 500);
+      }
+    }
+  }
+
   githubRouter = this.trpc.router({
-    getGitHubCommits: this.trpc.procedure
-    .query(async () => {
-      try {
-        const response = await fetch(`https://api.github.com/repos/${this.owner}/${this.repository}/commits`, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/vnd.github+json',
-            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
-          },
-        });
-
-        if (response.ok) {
-          const data: GitHubCommit[] = await response.json();
-          return GitHubReponseSchema.parse(data);
-        }
-        
-        // Handle non-OK responses
-        console.error(`GitHub API error: ${response.statusText}`);
-        return [];
-      } catch (err) {
-        // Handle fetch errors
-        console.error(`Fetch error: ${err}`);
-        return [];
-      }
-    }),
-    getGitHubRepository: this.trpc.procedure
-    .query(async () => {
-      try {
-        const response = await fetch(`https://api.github.com/repos/${this.owner}/${this.repository}`, {
-          method: 'GET',
-          headers: {
-            Accept: 'application/vnd.github+json',
-            Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
-          },
-        });
-
-        if (response.ok) {
-          const data: GitHubRepository = await response.json();
-          return GitHubRepositorySchema.parse(data);
-        }
-        
-        // Handle non-OK responses
-        console.error(`GitHub API error: ${response.statusText}`);
-        return null;
-      } catch (err) {
-        // Handle fetch errors
-        console.error(`Fetch error: ${err}`);
-        return null;
-      }
-    }),
+    getGitHubCommits: this.trpc.procedure.query(async () => this.fetchCommits()),
+    getGitHubRepository: this.trpc.procedure.query(async () => this.fetchRepositoryInformation()),
   });
 
   async applyMiddleware(app: INestApplication) {
