@@ -1,4 +1,4 @@
-import { gitHubApi } from "../gitHubApi";
+import { gitHubApi } from "../services/gitHubApi";
 
 export async function fetchCommits() {
     try {

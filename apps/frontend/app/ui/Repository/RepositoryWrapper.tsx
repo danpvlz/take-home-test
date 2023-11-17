@@ -1,7 +1,7 @@
 import React from "react";
-import { fetchRepository } from "../lib/data";
+import { fetchRepository } from "../../lib/data";
 import RepositoryCard from "./RepositoryCard";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 
 export default async function RepositoryWrapper() {
   const { success, data: repository, error } = await fetchRepository();

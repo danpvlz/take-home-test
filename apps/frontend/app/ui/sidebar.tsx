@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { RepositoryCardSkeleton } from "./Skeletons";
-import RepositoryWrapper from "./RepositoryWrapper";
+import RepositoryWrapper from "./Repository/RepositoryWrapper";
 
 export default async function Sidebar() {
   return (
