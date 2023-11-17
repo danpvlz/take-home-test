@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import moment from 'moment';
 
-import { CommitCard } from '../CommitCard';
+import { CommitCard } from '../commit-card';
 
 const mockCommit = {
     "sha": "abc123",

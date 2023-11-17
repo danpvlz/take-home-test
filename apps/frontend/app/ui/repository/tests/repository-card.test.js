@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import RepositoryCard from '../RepositoryCard';
+import RepositoryCard from '../repository-card';
 
 const mockRepository = {
   name: 'test-repo',

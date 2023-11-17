@@ -1,6 +1,6 @@
 import { fetchCommits } from "../../lib/data";
-import ErrorMessage from "../ErrorMessage";
-import { CommitCard } from "./CommitCard";
+import ErrorMessage from "../error-message";
+import { CommitCard } from "./commit-card";
 
 export default async function CommitWrapper() {
   const { success, data: commits, error } = await fetchCommits();
