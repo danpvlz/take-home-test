@@ -3,13 +3,29 @@ import moment from "moment";
 import Image from "next/image";
 
 export function CommitCard({ commit }: { commit: GitHubCommit }) {
+  const getTitle = () => {
+    const title = commit.commit.message.split("\n")[0];
+
+    if (!title) return null;
+
+    return <p className="text-blue-400">{title}</p>;
+  };
+
+  const getCommitBody = () => {
+    const body = commit.commit.message.split("\n")?.slice(1)?.join("\n");
+
+    if (!body) return null;
+
+    return <p className="text-slate-300 ">{body}</p>;
+  };
+
   return (
     <div
       key={commit.sha}
       className="whitespace-pre-line w-full 
             backdrop-blur-2xl 
             border-neutral-800 bg-zinc-800/40 rounded-xl border p-6 flex flex-col gap-3"
-            data-cy="commit-card"
+      data-cy="commit-card"
     >
       <div className="w-full flex justify-between items-start">
         <div className="flex  items-center gap-3">
@@ -22,7 +38,12 @@ export function CommitCard({ commit }: { commit: GitHubCommit }) {
           />
           <p>
             {commit.author.login}{" "}
-            <span className="opacity-40">committed {moment(commit.commit.committer.date).calendar().toLocaleLowerCase()}</span>
+            <span className="opacity-40">
+              committed{" "}
+              {moment(commit.commit.committer.date)
+                .calendar()
+                .toLocaleLowerCase()}
+            </span>
           </p>
         </div>
 
@@ -47,9 +68,8 @@ export function CommitCard({ commit }: { commit: GitHubCommit }) {
           </svg>
         </a>
       </div>
-      <p className="text-slate-300 first-line:text-blue-400">
-        {commit.commit.message}
-      </p>
+      {getTitle()}
+      {getCommitBody()}
     </div>
   );
 }
