@@ -40,9 +40,9 @@ export function CommitCard({ commit }: { commit: GitHubCommit }) {
             {commit.author.login}{" "}
             <span className="opacity-40">
               committed{" "}
-              {moment(commit.commit.committer.date)
+              {commit?.commit?.committer?.date ? moment(commit.commit.committer.date)
                 .calendar()
-                .toLocaleLowerCase()}
+                .toLocaleLowerCase() : ''}
             </span>
           </p>
         </div>
