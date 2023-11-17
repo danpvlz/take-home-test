@@ -49,6 +49,15 @@ Feel free to refer to the pnpm documentation for more information.
 
 ## Installation
 
+### Node.js
+
+Make sure you have Node.js installed. This project requires Node.js version 20.9.0. If you don't have it installed, you can download it from [the official Node.js website](https://nodejs.org/).
+
+### pnpm
+
+This project uses pnpm as its package manager. If you don't have pnpm installed, you can install it by following the instructions in the [pnpm documentation](https://pnpm.io/installation).
+
+
 1. Clone the repository:
 
    ```bash
