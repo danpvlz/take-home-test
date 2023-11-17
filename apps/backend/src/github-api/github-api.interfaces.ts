@@ -1,21 +1,35 @@
-export interface GitHubCommit {
-    sha: string;
+export interface Commit {
+    message: string;
     committer: Committer;
-    commit: Commit;
 }
 
 export interface Committer {
-    id: number;
-    avatar_url: string;
-}
-
-export interface Commit {
-    author: CommitAuthor;
-    message: string;
+    date: string;
 }
 
 export interface CommitAuthor {
-    date: string;
-    email: string;
+    login: string;
+    avatar_url: string;
+}
+
+export interface GitHubCommit {
+    sha: string;
+    commit: Commit;
+    author: CommitAuthor;
+    html_url: string;
+}
+
+export interface GitHubRepository {
+    id: number;
     name: string;
+    description: string;
+    html_url: string;
+    owner: Owner;
+}
+
+export interface Owner {
+    id: number;
+    login: string;
+    avatar_url: string;
+    url: string;
 }
