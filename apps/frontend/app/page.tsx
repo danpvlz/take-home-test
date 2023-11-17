@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import CommitWrapper from "./ui/CommitWrapper";
-import { CommitCardsSkeleton } from "./ui/skeletons";
-import Sidebar from "./ui/sidebar";
+import { CommitCardsSkeleton } from "./ui/Skeletons";
+import Sidebar from "./ui/Sidebar";
 
 export default async function Home() {
   return (

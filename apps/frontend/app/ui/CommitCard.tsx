@@ -9,6 +9,7 @@ export function CommitCard({ commit }: { commit: GitHubCommit }) {
       className="whitespace-pre-line w-full 
             backdrop-blur-2xl 
             border-neutral-800 bg-zinc-800/40 rounded-xl border p-6 flex flex-col gap-3"
+            data-cy="commit-card"
     >
       <div className="w-full flex justify-between items-start">
         <div className="flex  items-center gap-3">
@@ -29,6 +30,8 @@ export function CommitCard({ commit }: { commit: GitHubCommit }) {
           href={commit.html_url}
           target="_blank"
           rel="noreferrer"
+          role="link"
+          aria-label="Open commit on GitHub"
           className="opacity-60 hover:opacity-80 transition-opacity duration-150"
         >
           <svg

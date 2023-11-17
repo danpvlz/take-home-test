@@ -2,13 +2,13 @@ import Image from "next/image";
 import React from "react";
 import { GitHubRepository } from "@backend/github-api/github-api.interfaces";
 
-export default async function RepositoryCard({
+export default function RepositoryCard({
   repository,
 }: {
   repository: GitHubRepository;
 }) {
   return (
-    <div className=" border-neutral-800 bg-zinc-800/40 rounded-xl border p-6 flex flex-col gap-3">
+    <div data-cy="repository-card" className=" border-neutral-800 bg-zinc-800/40 rounded-xl border p-6 flex flex-col gap-3">
       <a
         className="font-bold text-2xl text-blue-500 hover:text-blue-300 transition-colors duration-150 flex items-center gap-2"
         href={repository.html_url}
