@@ -67,14 +67,14 @@ This project uses pnpm as its package manager. If you don't have pnpm installed,
 2. Create .env files in the backend and frontend directories with the following content:
     # backend/.env
    ```bash
-    GITHUB_TOKEN=my-token
+    GITHUB_TOKEN=[token-send-via-mail]
     PORT=5000
     ```
     # frontend/.env
    ```bash
     NEXT_PUBLIC_NESTJS_BACKEND=http://localhost:5000
     ```
-3. Install dependencies for both backend and frontend:
+3. Install dependencies for both backend and frontend, run this command at the root of the project:
 
    ```bash
    pnpm install
@@ -82,11 +82,11 @@ This project uses pnpm as its package manager. If you don't have pnpm installed,
 
 ## Usage
 
-Start the project
-
-```bash
-pnpm dev
-```
+1. Start the project, run this command at the root of the project:
+     ```bash
+      pnpm dev
+      ```
+2. Open project at local [http://localhost:3000/](http://localhost:3000/)
 
 ## Testing
 
