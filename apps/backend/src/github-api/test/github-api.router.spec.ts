@@ -1,4 +1,3 @@
-import { localRepository } from '../data';
 import { GitHubApiError } from '../github-api.errors';
 import { GitHubApiRouter } from '../github-api.router';
 import { GitHubService } from '../github-api.service';
@@ -16,7 +15,15 @@ describe('GitHubApiRouter', () => {
         const repositoryInfo = await githubApiRouter.fetchRepositoryInformation();
 
         expect(repositoryInfo).toBeDefined();
-        expect(repositoryInfo).toMatchObject(localRepository)
+        expect(repositoryInfo).toMatchObject({
+          name: 'take-home-test',
+          description: 'Monorepo showcasing a take-home test project using Next.js for the frontend and Nest.js for the backend',
+          html_url: 'https://github.com/danpvlz/take-home-test',
+          owner: {
+            avatar_url: 'https://avatars.githubusercontent.com/u/55776282?v=4',
+            login: 'danpvlz',
+          }
+        })
     });
 
     it('should fetch commits', async () => {
